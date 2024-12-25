@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talabalar ro'yxati</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f1f1f1;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+        }
+
+        header h1 {
+            text-align: center;
+            color: green;
+            background-color: white;
+            padding: 10px 0;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 10px 0;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .add-btn {
+            background-color: blue;
+            color: white;
+            text-align: center;
+        }
+
+        .submit-btn {
+            background-color: green;
+            color: white;
+            width: 100%;
+        }
+
+        .list-btn {
+            background-color: cyan;
+            color: white;
+        }
+
+        .student-form {
+            display: flex;
+            flex-direction: column;
+            margin-top: 20px;
+        }
+
+        .student-form label {
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+
+        .student-form input {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #ccc;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: lightgreen;
+        }
+
+        button.edit-btn {
+            background-color: yellow;
+            color: black;
+            padding: 5px 10px;
+            margin-right: 5px;
+            border: none;
+        }
+
+        button.delete-btn {
+            background-color: red;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+        }
+
+        button.edit-btn:hover,
+        button.delete-btn:hover {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Talabalar ro'yxati</h1>
+        </header>
+
+        <section class="add-student">
+            <button class="btn add-btn">Yangi talabani qo'shish</button>
+            <form class="student-form">
+                <label for="name">Ism:</label>
+                <input type="text" id="name" name="name" required>
+                <label for="surname">Familya:</label>
+                <input type="text" id="surname" name="surname" required>
+                <label for="age">Yosh:</label>
+                <input type="number" id="age" name="age" required>
+                <button type="submit" class="btn submit-btn">Qo'shish</button>
+            </form>
+        </section>
+
+        <section class="students-list">
+            <button class="btn list-btn">Talabalar ro'yxati</button>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Ism</th>
+                        <th>Familiya</th>
+                        <th>Yosh</th>
+                        <th>Harakatlar</th>
+                    </tr>
+                </thead>
+                <tbody id="student-table">
+                    <!-- Talabalar ro'yxati shu yerga qo'shiladi -->
+                </tbody>
+            </table>
+        </section>
+    </div>
+
+    <script>
+        document.querySelector('.student-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const name = document.querySelector('#name').value;
+            const surname = document.querySelector('#surname').value;
+            const age = document.querySelector('#age').value;
+
+            const table = document.querySelector('#student-table');
+            const row = document.createElement('tr');
+
+            row.innerHTML = `
+                <td>${name}</td>
+                <td>${surname}</td>
+                <td>${age}</td>
+                <td>
+                    <button class="edit-btn">Tahrirlash</button>
+                    <button class="delete-btn">Uchirish</button>
+                </td>
+            `;
+
+            table.appendChild(row);
+
+            document.querySelector('#name').value = '';
+            document.querySelector('#surname').value = '';
+            document.querySelector('#age').value = '';
+
+            row.querySelector('.edit-btn').addEventListener('click', function () {
+                const newName = prompt('Ismni kiriting:', name);
+                const newSurname = prompt('Familyani kiriting:', surname);
+                const newAge = prompt('Yoshni kiriting:', age);
+
+                if (newName && newSurname && newAge) {
+                    row.children[0].textContent = newName;
+                    row.children[1].textContent = newSurname;
+                    row.children[2].textContent = newAge;
+                }
+            });
+
+            row.querySelector('.delete-btn').addEventListener('click', function () {
+                table.removeChild(row);
+            });
+        });
+    </script>
+</body>
+
+</html>
